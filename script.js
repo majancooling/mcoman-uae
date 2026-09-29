@@ -24,16 +24,28 @@ document.addEventListener("DOMContentLoaded", () => {
        LOADING SCREEN
     ========================================= */
 
-    const loader = $(".loader");
+    const loader = document.querySelector(".loader");
 
-    if (loader) {
-        window.addEventListener("load", () => {
-            setTimeout(() => {
-                loader.classList.add("done");
-            }, reducedMotion ? 0 : 500);
-        });
-    }
+if (loader) {
+    window.addEventListener("load", () => {
+        loader.style.opacity = "0";
+        loader.style.pointerEvents = "none";
 
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 600);
+    });
+
+    // Safety fallback — never let the loader stay forever
+    setTimeout(() => {
+        loader.style.opacity = "0";
+        loader.style.pointerEvents = "none";
+
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 600);
+    }, 3000);
+       }
 
     /* =========================================
        HEADER / NAVIGATION
