@@ -2,209 +2,173 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <meta name="theme-color" content="#061724">
-
-    <title>Majan Cooling | Professional AC Services in Oman & UAE</title>
+    <title>Majan Cooling | Professional AC Solutions</title>
 
     <meta name="description"
-          content="Majan Cooling provides professional air-conditioning installation, maintenance, repair, cleaning, PC board repair, motor winding and AMC services in Oman and the UAE.">
+          content="Majan Cooling provides professional air conditioning installation, maintenance and repair solutions.">
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
-<!-- =========================================
-     LOADING SCREEN
-========================================= -->
-
-<div class="loader">
-    <div class="loader-inner">
-        <img src="assets/logo.png"
-             alt="Majan Cooling"
-             class="loader-logo">
-
-        <div class="loader-line"></div>
-
-        <p>PROFESSIONAL AC SOLUTIONS</p>
-    </div>
-</div>
-
-
-<!-- =========================================
+<!-- =========================
      HEADER
-========================================= -->
+========================= -->
 
-<header class="site-header">
+<header id="header">
 
-    <div class="nav-container">
+    <div class="container navbar">
 
-        <a href="#home" class="brand">
-            <img src="assets/logo.png"
-                 alt="Majan Cooling logo">
+        <a href="#home" class="logo">
+            <img src="assets/logo.png" alt="Majan Cooling Logo">
+            <span>Majan Cooling</span>
         </a>
 
-        <nav class="desktop-nav">
-
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#services">Services</a>
-            <a href="#amc">AMC</a>
-            <a href="#mission">Mission</a>
-            <a href="#vision">Vision</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#faq">FAQ</a>
-            <a href="#contact">Contact</a>
-
-            <a href="tel:+96892820633"
-               class="nav-call">
-                CALL NOW
-            </a>
-
-        </nav>
-
-
-        <button class="menu-toggle"
-                type="button"
-                aria-label="Open menu"
-                aria-expanded="false">
-
-            <span></span>
-            <span></span>
-            <span></span>
-
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
         </button>
 
-    </div>
+        <nav>
+            <ul class="nav-links" id="navLinks">
 
+                <li>
+                    <a href="#home">Home</a>
+                </li>
 
-    <!-- MOBILE MENU -->
+                <li>
+                    <a href="#about">About</a>
+                </li>
 
-    <div class="mobile-menu"
-         aria-hidden="true">
+                <li>
+                    <a href="#services">Services</a>
+                </li>
 
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#amc">AMC</a>
-        <a href="#mission">Mission</a>
-        <a href="#vision">Vision</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Contact</a>
+                <li>
+                    <a href="#why-us">Why Us</a>
+                </li>
 
-        <a href="tel:+96892820633"
-           class="mobile-menu-call">
-            ☎ CALL MAJAN COOLING
-        </a>
+                <li>
+                    <a href="#gallery">Gallery</a>
+                </li>
+
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+
+                <li>
+                    <a href="#contact" class="nav-button">
+                        Get a Quote
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
 
     </div>
 
 </header>
 
 
-<!-- =========================================
+<!-- =========================
      HERO
-========================================= -->
+========================= -->
 
-<main>
+<section class="hero" id="home">
 
-<section class="hero"
-         id="home">
+    <!-- Decorative floating elements -->
+    <div class="floating-shape shape-one"></div>
+    <div class="floating-shape shape-two"></div>
+    <div class="floating-shape shape-three"></div>
 
-    <div class="hero-background"></div>
+    <div class="container hero-grid">
 
-    <div class="hero-airflow airflow"></div>
-    <div class="hero-airflow airflow"></div>
+        <div class="hero-content reveal-left">
 
-
-    <div class="hero-container">
-
-        <div class="hero-copy">
-
-            <div class="hero-eyebrow">
-                EST. 1996
+            <div class="hero-badge">
+                <i class="fas fa-snowflake"></i>
+                Professional AC Solutions
             </div>
 
             <h1>
-                COMFORT,
-                <span>ENGINEERED.</span>
+                Comfort that
+                <span>keeps you cool.</span>
             </h1>
 
             <p>
-                Professional air-conditioning installation,
-                maintenance and repair services for
-                residential and commercial spaces.
+                Professional air conditioning installation,
+                maintenance and repair services for residential
+                and commercial spaces.
             </p>
-
 
             <div class="hero-buttons">
 
-                <a href="tel:+96892820633"
-                   class="btn btn-primary">
-                    CALL NOW
+                <a href="#contact" class="btn btn-primary">
+                    Book a Service
+                    <i class="fas fa-arrow-right"></i>
                 </a>
 
-                <a href="#services"
-                   class="btn btn-outline">
-                    EXPLORE SERVICES
+                <a href="#services" class="btn btn-outline">
+                    Explore Services
                 </a>
 
             </div>
 
+            <div class="hero-trust">
 
-            <div class="hero-phone">
-                <span>Speak with Majan Cooling</span>
-                <a href="tel:+96892820633">
-                    +968 92820633
-                </a>
+                <div class="trust-item">
+                    <i class="fas fa-check-circle"></i>
+                    Quality Service
+                </div>
+
+                <div class="trust-item">
+                    <i class="fas fa-check-circle"></i>
+                    Experienced Team
+                </div>
+
             </div>
 
         </div>
 
 
-        <div class="hero-visual">
+        <div class="hero-visual reveal-right">
 
-            <div class="hero-glow"></div>
+            <div class="hero-card">
 
-            <div class="hero-ac-wrap">
+                <div class="hero-card-glow"></div>
+
+                <i class="fas fa-snowflake hero-snowflake"></i>
+
+                <div class="air-flow air-one"></div>
+                <div class="air-flow air-two"></div>
+                <div class="air-flow air-three"></div>
 
                 <div class="ac-unit">
 
-                    <div class="ac-top"></div>
+                    <div class="ac-display">
+                        18°
+                    </div>
 
-                    <div class="ac-body">
+                    <div class="ac-line"></div>
 
-                        <div class="ac-brand">
-                            MAJAN
-                        </div>
-
-                        <div class="ac-panel">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-
-                        <div class="ac-vent">
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                            <i></i>
-                        </div>
-
+                    <div class="ac-lights">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
 
                 </div>
 
-                <div class="air-stream"></div>
-                <div class="air-stream stream-two"></div>
-                <div class="air-stream stream-three"></div>
+                <div class="temperature">
+                    <strong>Cool</strong>
+                    <span>Perfect comfort</span>
+                </div>
 
             </div>
 
@@ -212,160 +176,246 @@
 
     </div>
 
-
-    <div class="hero-bottom">
-
-        <span>SCROLL TO EXPLORE</span>
-
-        <div class="scroll-line"></div>
-
+    <div class="scroll-indicator">
+        <span>Scroll to explore</span>
+        <i class="fas fa-chevron-down"></i>
     </div>
 
 </section>
 
 
-<!-- =========================================
-     INTRO
-========================================= -->
-
-<section class="intro section-dark">
-
-    <div class="container reveal-up">
-
-        <span class="section-label">
-            MAJAN COOLING
-        </span>
-
-        <h2>
-            COOLING THAT
-            <span>COMES TO YOU.</span>
-        </h2>
-
-        <p>
-            From installation to maintenance and repair,
-            Majan Cooling delivers practical air-conditioning
-            solutions designed around your space,
-            comfort and long-term needs.
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
-     STATS
-========================================= -->
-
-<section class="stats-section">
-
-    <div class="container stats-grid">
-
-        <div class="stat reveal-up">
-
-            <strong data-count="30"
-                    data-suffix="+">
-                0+
-            </strong>
-
-            <span>YEARS OF EXPERIENCE</span>
-
-        </div>
-
-
-        <div class="stat reveal-up">
-
-            <strong data-count="200"
-                    data-suffix="+">
-                0+
-            </strong>
-
-            <span>CUSTOMERS</span>
-
-        </div>
-
-
-        <div class="stat reveal-up">
-
-            <strong>2</strong>
-
-            <span>REGIONS</span>
-
-        </div>
-
-
-        <div class="stat reveal-up">
-
-            <strong>24/7</strong>
-
-            <span>COMFORT FOCUS</span>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
+<!-- =========================
      ABOUT
-========================================= -->
+========================= -->
 
-<section class="about section-light"
-         id="about">
+<section class="about section" id="about">
 
     <div class="container">
 
-        <div class="section-heading reveal-up">
+        <div class="section-header reveal">
 
-            <span class="section-label">
-                ABOUT US
-            </span>
+            <span class="section-label">About Us</span>
 
             <h2>
-                OUR <span>STORY.</span>
+                Cooling expertise you can rely on
             </h2>
+
+            <p>
+                Decades of experience delivering dependable
+                air conditioning solutions.
+            </p>
 
         </div>
 
 
         <div class="about-grid">
 
-            <div class="about-text reveal-left">
+            <div class="about-visual reveal-left">
 
-                <p class="large-text">
-                    Established in 1996, Majan Cooling has
-                    grown through years of practical experience
-                    in air-conditioning services.
-                </p>
+                <div class="experience-card">
 
-                <p>
-                    We provide installation, maintenance,
-                    repair and technical services for
-                    residential and commercial AC systems.
-                </p>
+                    <span class="experience-number">
+                        30+
+                    </span>
 
-                <p>
-                    Our work focuses on quality components,
-                    careful workmanship and dependable
-                    service for customers across Oman
-                    and the UAE.
-                </p>
+                    <span class="experience-text">
+                        Years of experience
+                    </span>
+
+                </div>
+
+                <div class="about-circle circle-one"></div>
+                <div class="about-circle circle-two"></div>
+
+                <i class="fas fa-fan about-fan"></i>
 
             </div>
 
 
-            <div class="about-card reveal-right">
+            <div class="about-content reveal-right">
 
-                <span>1996</span>
+                <span class="small-heading">
+                    Since 1996
+                </span>
 
                 <h3>
-                    BUILT ON EXPERIENCE.
+                    Keeping spaces comfortable
+                    for generations.
                 </h3>
 
                 <p>
-                    More than three decades of experience
-                    serving cooling needs.
+                    Majan Cooling has been providing professional
+                    air conditioning solutions since 1996.
+                    Over the years, we have built our experience
+                    around quality workmanship, dependable service
+                    and customer satisfaction.
+                </p>
+
+                <p>
+                    From residential spaces to commercial
+                    environments, our team works to deliver
+                    practical cooling solutions that meet
+                    your needs.
+                </p>
+
+                <ul class="about-list">
+
+                    <li>
+                        <i class="fas fa-check"></i>
+                        Professional installation
+                    </li>
+
+                    <li>
+                        <i class="fas fa-check"></i>
+                        Reliable maintenance
+                    </li>
+
+                    <li>
+                        <i class="fas fa-check"></i>
+                        Expert repair services
+                    </li>
+
+                    <li>
+                        <i class="fas fa-check"></i>
+                        Quality components
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<section class="stats">
+
+    <div class="container stats-grid">
+
+        <div class="stat reveal">
+
+            <div class="stat-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+
+            <h3>
+                <span class="counter" data-target="30">0</span>+
+            </h3>
+
+            <p>
+                Years of Experience
+            </p>
+
+        </div>
+
+
+        <div class="stat reveal">
+
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+
+            <h3>
+                <span class="counter" data-target="200">0</span>+
+            </h3>
+
+            <p>
+                Happy Customers
+            </p>
+
+        </div>
+
+
+        <div class="stat reveal">
+
+            <div class="stat-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+
+            <h3>
+                <span class="counter" data-target="100">0</span>%
+            </h3>
+
+            <p>
+                Dedicated Service
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MISSION / VISION
+========================= -->
+
+<section class="mission-vision section">
+
+    <div class="container">
+
+        <div class="section-header reveal">
+
+            <span class="section-label">
+                Our Purpose
+            </span>
+
+            <h2>
+                Built around quality and trust
+            </h2>
+
+            <p>
+                Our mission and vision guide the way we serve
+                every customer.
+            </p>
+
+        </div>
+
+
+        <div class="mv-grid">
+
+            <div class="mv-card reveal-left">
+
+                <div class="mv-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+
+                <h3>
+                    Our Mission
+                </h3>
+
+                <p>
+                    To provide dependable, professional and
+                    high-quality air conditioning solutions
+                    while creating a comfortable experience
+                    for every customer.
+                </p>
+
+            </div>
+
+
+            <div class="mv-card reveal-right">
+
+                <div class="mv-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+
+                <h3>
+                    Our Vision
+                </h3>
+
+                <p>
+                    To grow as a trusted name in cooling
+                    solutions by combining experience,
+                    quality service and modern technology.
                 </p>
 
             </div>
@@ -377,183 +427,27 @@
 </section>
 
 
-<!-- =========================================
-     TIMELINE
-========================================= -->
-
-<section class="timeline-section section-dark">
-
-    <div class="container">
-
-        <div class="section-heading reveal-up">
-
-            <span class="section-label">
-                OUR JOURNEY
-            </span>
-
-            <h2>
-                FROM THEN
-                <span>TO TODAY.</span>
-            </h2>
-
-        </div>
-
-
-        <div class="timeline">
-
-            <div class="timeline-progress">
-                <span></span>
-            </div>
-
-
-            <div class="timeline-item active">
-
-                <div class="timeline-number">
-                    01
-                </div>
-
-                <div class="timeline-content">
-
-                    <span>1996</span>
-
-                    <h3>
-                        THE BEGINNING
-                    </h3>
-
-                    <p>
-                        Majan Cooling begins its journey
-                        in the air-conditioning field.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="timeline-item">
-
-                <div class="timeline-number">
-                    02
-                </div>
-
-                <div class="timeline-content">
-
-                    <span>GROWTH</span>
-
-                    <h3>
-                        EXPERIENCE BUILDS
-                    </h3>
-
-                    <p>
-                        Expanding experience through
-                        installation, maintenance and repair.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="timeline-item">
-
-                <div class="timeline-number">
-                    03
-                </div>
-
-                <div class="timeline-content">
-
-                    <span>OMAN</span>
-
-                    <h3>
-                        EXPANDING SERVICE
-                    </h3>
-
-                    <p>
-                        Serving cooling requirements
-                        across Oman.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="timeline-item">
-
-                <div class="timeline-number">
-                    04
-                </div>
-
-                <div class="timeline-content">
-
-                    <span>UAE</span>
-
-                    <h3>
-                        NEW HORIZONS
-                    </h3>
-
-                    <p>
-                        Expanding services beyond Oman
-                        into the UAE.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="timeline-item">
-
-                <div class="timeline-number">
-                    05
-                </div>
-
-                <div class="timeline-content">
-
-                    <span>TODAY</span>
-
-                    <h3>
-                        MAJAN COOLING
-                    </h3>
-
-                    <p>
-                        Continuing to provide professional
-                        AC solutions across the region.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
+<!-- =========================
      SERVICES
-========================================= -->
+========================= -->
 
-<section class="services section-light"
-         id="services">
+<section class="services section" id="services">
 
     <div class="container">
 
-        <div class="section-heading reveal-up">
+        <div class="section-header reveal">
 
             <span class="section-label">
-                WHAT WE DO
+                What We Do
             </span>
 
             <h2>
-                OUR <span>SERVICES.</span>
+                Complete AC solutions
             </h2>
 
             <p>
-                Comprehensive AC solutions for
-                your cooling needs.
+                From installation to maintenance and repair,
+                we help keep your cooling systems performing.
             </p>
 
         </div>
@@ -561,295 +455,273 @@
 
         <div class="services-grid">
 
-
-            <article class="service-card reveal-up">
+            <div class="service-card reveal">
 
                 <div class="service-number">
                     01
                 </div>
 
                 <div class="service-icon">
-                    ❄
+                    <i class="fas fa-snowflake"></i>
                 </div>
 
                 <h3>
-                    INSTALLATION
+                    AC Installation
                 </h3>
 
                 <p>
-                    Professional installation with suitable
-                    sizing, placement and careful workmanship.
+                    Professional installation designed
+                    for reliable performance and comfortable
+                    indoor environments.
                 </p>
 
-                <ul>
-                    <li>Suitable placement</li>
-                    <li>Careful installation</li>
-                    <li>System testing</li>
-                </ul>
+                <a href="#contact" class="service-link">
+                    Learn More
+                    <i class="fas fa-arrow-right"></i>
+                </a>
 
-            </article>
+            </div>
 
 
-            <article class="service-card reveal-up">
+            <div class="service-card reveal">
 
                 <div class="service-number">
                     02
                 </div>
 
                 <div class="service-icon">
-                    ◉
+                    <i class="fas fa-screwdriver-wrench"></i>
                 </div>
 
                 <h3>
-                    MAINTENANCE
+                    AC Repair
                 </h3>
 
                 <p>
-                    Regular maintenance designed to help
-                    keep AC systems operating efficiently.
+                    Reliable troubleshooting and repair
+                    solutions for different air conditioning
+                    systems.
                 </p>
 
-                <ul>
-                    <li>System inspection</li>
-                    <li>Cleaning</li>
-                    <li>Performance checks</li>
-                </ul>
+                <a href="#contact" class="service-link">
+                    Learn More
+                    <i class="fas fa-arrow-right"></i>
+                </a>
 
-            </article>
+            </div>
 
 
-            <article class="service-card reveal-up">
+            <div class="service-card reveal">
 
                 <div class="service-number">
                     03
                 </div>
 
                 <div class="service-icon">
-                    ⚙
+                    <i class="fas fa-gears"></i>
                 </div>
 
                 <h3>
-                    REPAIR
+                    AC Maintenance
                 </h3>
 
                 <p>
-                    Fast and reliable repair services
-                    for AC systems from major brands.
+                    Regular maintenance to help your AC
+                    system stay efficient and dependable.
                 </p>
 
-                <ul>
-                    <li>Fault diagnosis</li>
-                    <li>Component repair</li>
-                    <li>System testing</li>
-                </ul>
+                <a href="#contact" class="service-link">
+                    Learn More
+                    <i class="fas fa-arrow-right"></i>
+                </a>
 
-            </article>
+            </div>
 
 
-            <article class="service-card reveal-up">
+            <div class="service-card reveal">
 
                 <div class="service-number">
                     04
                 </div>
 
                 <div class="service-icon">
-                    ▣
+                    <i class="fas fa-building"></i>
                 </div>
 
                 <h3>
-                    PC BOARD REPAIR
+                    Commercial AC
                 </h3>
 
                 <p>
-                    Specialized repair and replacement
-                    of AC control boards and components.
+                    Cooling solutions for offices,
+                    commercial spaces and other larger
+                    environments.
                 </p>
 
-                <ul>
-                    <li>Board inspection</li>
-                    <li>Electronic component work</li>
-                    <li>Testing</li>
-                </ul>
+                <a href="#contact" class="service-link">
+                    Learn More
+                    <i class="fas fa-arrow-right"></i>
+                </a>
 
-            </article>
+            </div>
 
 
-            <article class="service-card reveal-up">
+            <div class="service-card reveal">
 
                 <div class="service-number">
                     05
                 </div>
 
                 <div class="service-icon">
-                    ◌
+                    <i class="fas fa-house"></i>
                 </div>
 
                 <h3>
-                    MOTOR WINDING
+                    Residential AC
                 </h3>
 
                 <p>
-                    Professional motor repair and
-                    rewinding services for suitable AC motors.
+                    Comfortable and practical cooling
+                    solutions for homes and living spaces.
                 </p>
 
-                <ul>
-                    <li>Motor inspection</li>
-                    <li>Rewinding</li>
-                    <li>Performance testing</li>
-                </ul>
+                <a href="#contact" class="service-link">
+                    Learn More
+                    <i class="fas fa-arrow-right"></i>
+                </a>
 
-            </article>
+            </div>
 
 
-            <article class="service-card reveal-up">
+            <div class="service-card service-highlight reveal">
 
                 <div class="service-number">
                     06
                 </div>
 
                 <div class="service-icon">
-                    ✓
+                    <i class="fas fa-headset"></i>
                 </div>
 
                 <h3>
-                    AMC CONTRACTS
+                    Service Support
                 </h3>
 
                 <p>
-                    Yearly renewable Annual Maintenance
-                    Contracts for ongoing AC maintenance.
+                    Get in touch with our team for assistance
+                    with your air conditioning requirements.
                 </p>
 
-                <ul>
-                    <li>Scheduled maintenance</li>
-                    <li>Regular inspections</li>
-                    <li>Yearly renewable plans</li>
-                </ul>
-
-            </article>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
-     PINNED SERVICES
-========================================= -->
-
-<section class="pinned-services section-dark">
-
-    <div class="pin-sticky">
-
-        <div class="pin-copy">
-
-            <span class="section-label">
-                OUR EXPERTISE
-            </span>
-
-            <div class="pin-number">
-                01
-            </div>
-
-            <h2>
-                INSTALLATION
-            </h2>
-
-            <p>
-                Professional installation with suitable
-                sizing, placement and careful workmanship.
-            </p>
-
-            <div class="pin-dots"></div>
-
-        </div>
-
-
-        <div class="pin-visual">
-
-            <div class="pin-glow"></div>
-
-            <div class="pin-ac">
-
-                <div class="pin-ac-body">
-
-                    <span>MAJAN</span>
-
-                    <div></div>
-
-                </div>
-
-                <div class="pin-ac-vent"></div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================
-     AMC
-========================================= -->
-
-<section class="amc-section section-light"
-         id="amc">
-
-    <div class="container">
-
-        <div class="amc-grid">
-
-            <div class="amc-copy reveal-left">
-
-                <span class="section-label">
-                    ANNUAL MAINTENANCE CONTRACTS
-                </span>
-
-                <h2>
-                    KEEP YOUR COOL.
-                    <span>ALL YEAR.</span>
-                </h2>
-
-                <p>
-                    Our yearly renewable AMC services help
-                    make regular AC maintenance easier and
-                    more organized.
-                </p>
-
-                <a href="tel:+96892820633"
-                   class="btn btn-primary">
-                    ASK ABOUT AMC
+                <a href="#contact" class="service-link">
+                    Contact Us
+                    <i class="fas fa-arrow-right"></i>
                 </a>
 
             </div>
 
+        </div>
 
-            <div class="amc-calendar reveal-right">
+    </div>
 
-                <div class="amc-month">
-                    <strong>JAN</strong>
-                    <span>CHECK</span>
+</section>
+
+
+<!-- =========================
+     WHY CHOOSE US
+========================= -->
+
+<section class="why-us section" id="why-us">
+
+    <div class="container">
+
+        <div class="section-header reveal">
+
+            <span class="section-label">
+                Why Majan Cooling
+            </span>
+
+            <h2>
+                Service built on experience
+            </h2>
+
+            <p>
+                We focus on quality, reliability and
+                long-term customer relationships.
+            </p>
+
+        </div>
+
+
+        <div class="why-grid">
+
+            <div class="why-card reveal">
+
+                <div class="why-icon">
+                    <i class="fas fa-award"></i>
                 </div>
 
-                <div class="amc-month">
-                    <strong>APR</strong>
-                    <span>MAINTAIN</span>
+                <h3>
+                    Experienced
+                </h3>
+
+                <p>
+                    More than three decades of experience
+                    in air conditioning solutions.
+                </p>
+
+            </div>
+
+
+            <div class="why-card reveal">
+
+                <div class="why-icon">
+                    <i class="fas fa-shield-halved"></i>
                 </div>
 
-                <div class="amc-month">
-                    <strong>JUL</strong>
-                    <span>INSPECT</span>
+                <h3>
+                    Reliable
+                </h3>
+
+                <p>
+                    Dependable service focused on quality
+                    workmanship and lasting solutions.
+                </p>
+
+            </div>
+
+
+            <div class="why-card reveal">
+
+                <div class="why-icon">
+                    <i class="fas fa-star"></i>
                 </div>
 
-                <div class="amc-month">
-                    <strong>OCT</strong>
-                    <span>PREPARE</span>
+                <h3>
+                    Quality Focused
+                </h3>
+
+                <p>
+                    We prioritize quality brands,
+                    components and professional service.
+                </p>
+
+            </div>
+
+
+            <div class="why-card reveal">
+
+                <div class="why-icon">
+                    <i class="fas fa-user-check"></i>
                 </div>
+
+                <h3>
+                    Customer Focused
+                </h3>
+
+                <p>
+                    Every project is approached with
+                    attention to customer requirements.
+                </p>
 
             </div>
 
@@ -860,62 +732,98 @@
 </section>
 
 
-<!-- =========================================
-     RESIDENTIAL / COMMERCIAL
-========================================= -->
+<!-- =========================
+     CTA
+========================= -->
 
-<section class="split-section">
+<section class="cta">
 
-    <div class="split-panel residential">
+    <div class="container cta-content reveal">
 
-        <div class="split-content reveal-left">
+        <div>
 
             <span class="section-label">
-                RESIDENTIAL
+                Need AC Service?
             </span>
 
             <h2>
-                COMFORT
-                <span>AT HOME.</span>
+                Let's keep your space comfortable.
             </h2>
 
             <p>
-                AC solutions designed around homes,
-                rooms and everyday comfort.
+                Talk to Majan Cooling about your
+                air conditioning requirements.
             </p>
-
-            <a href="tel:+96892820633"
-               class="text-link">
-                REQUEST SERVICE →
-            </a>
 
         </div>
 
+        <a href="#contact" class="btn btn-light">
+            Get in Touch
+            <i class="fas fa-arrow-right"></i>
+        </a>
+
     </div>
 
+</section>
 
-    <div class="split-panel commercial">
 
-        <div class="split-content reveal-right">
+<!-- =========================
+     GALLERY
+========================= -->
+
+<section class="gallery section" id="gallery">
+
+    <div class="container">
+
+        <div class="section-header reveal">
 
             <span class="section-label">
-                COMMERCIAL
+                Our Work
             </span>
 
             <h2>
-                COOLING
-                <span>AT WORK.</span>
+                A look at our work
             </h2>
 
             <p>
-                Practical air-conditioning support
-                for commercial spaces and businesses.
+                Add your installation, maintenance and
+                project photos here.
             </p>
 
-            <a href="tel:+96892820633"
-               class="text-link">
-                REQUEST SERVICE →
-            </a>
+        </div>
+
+
+        <div class="gallery-grid">
+
+            <div class="gallery-item reveal">
+                <img src="assets/gallery1.jpg"
+                     alt="Majan Cooling AC project">
+            </div>
+
+            <div class="gallery-item reveal">
+                <img src="assets/gallery2.jpg"
+                     alt="Air conditioning installation">
+            </div>
+
+            <div class="gallery-item reveal">
+                <img src="assets/gallery3.jpg"
+                     alt="AC maintenance work">
+            </div>
+
+            <div class="gallery-item reveal">
+                <img src="assets/gallery4.jpg"
+                     alt="Commercial AC project">
+            </div>
+
+            <div class="gallery-item reveal">
+                <img src="assets/gallery5.jpg"
+                     alt="Air conditioning service">
+            </div>
+
+            <div class="gallery-item reveal">
+                <img src="assets/gallery6.jpg"
+                     alt="Cooling system">
+            </div>
 
         </div>
 
@@ -924,4 +832,336 @@
 </section>
 
 
-<!
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section class="contact section" id="contact">
+
+    <div class="container">
+
+        <div class="section-header reveal">
+
+            <span class="section-label">
+                Contact Us
+            </span>
+
+            <h2>
+                Let's talk about your cooling needs
+            </h2>
+
+            <p>
+                Have a question or need an AC service?
+                Send us a message.
+            </p>
+
+        </div>
+
+
+        <div class="contact-grid">
+
+            <div class="contact-info reveal-left">
+
+                <h3>
+                    Get in touch
+                </h3>
+
+                <p>
+                    Contact Majan Cooling for professional
+                    air conditioning installation,
+                 </p>
+
+
+                <div class="contact-item">
+
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+
+                    <div>
+                        <h4>Phone</h4>
+                        <p>Add your phone number</p>
+                    </div>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+
+                    <div>
+                        <h4>Email</h4>
+                        <p>Add your email address</p>
+                    </div>
+
+                </div>
+
+
+                <div class="contact-item">
+
+                    <div class="contact-icon">
+                        <i class="fas fa-location-dot"></i>
+                    </div>
+
+                    <div>
+                        <h4>Location</h4>
+                        <p>Oman & UAE</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form class="contact-form reveal-right" id="contactForm">
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="name">
+                            Your Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter your name"
+                            required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="phone">
+                            Phone
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            placeholder="Enter phone number"
+                            required>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="service">
+                        Service Required
+                    </label>
+
+                    <select id="service">
+
+                        <option value="">
+                            Select a service
+                        </option>
+
+                        <option>
+                            AC Installation
+                        </option>
+
+                        <option>
+                            AC Repair
+                        </option>
+
+                        <option>
+                            AC Maintenance
+                        </option>
+
+                        <option>
+                            Commercial AC
+                        </option>
+
+                        <option>
+                            Residential AC
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="message"
+                        placeholder="Tell us about your requirement"></textarea>
+
+                </div>
+
+
+                <button type="submit" class="btn btn-primary form-button">
+
+                    Send Message
+                    <i class="fas fa-paper-plane"></i>
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <h3>
+                    Majan <span>Cooling</span>
+                </h3>
+
+                <p>
+                    Professional air conditioning
+                    solutions built around experience,
+                    quality and dependable service.
+                </p>
+
+                <div class="social-links">
+
+                    <a href="#" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+
+                    <a href="#" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <a href="#" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Quick Links
+                </h4>
+
+                <ul>
+
+                    <li>
+                        <a href="#home">Home</a>
+                    </li>
+
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+
+                    <li>
+                        <a href="#gallery">Gallery</a>
+                    </li>
+
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Services
+                </h4>
+
+                <ul>
+
+                    <li>
+                        <a href="#services">
+                            Installation
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#services">
+                            Repair
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#services">
+                            Maintenance
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#services">
+                            Commercial AC
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © <span id="year"></span> Majan Cooling.
+                All rights reserved.
+            </p>
+
+            <p>
+                Professional AC Solutions
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+
+</body>
+    </html>
+    
