@@ -1,834 +1,812 @@
-/* =========================================
-   MAJAN COOLING — PREMIUM WEBSITE
-   Main JavaScript
-========================================= */
+/* =========================================================
+   MAJAN COOLING
+   MAIN JAVASCRIPT
+   ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =========================================
-       BASIC HELPERS
-    ========================================= */
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
 
-    const $ = (selector, parent = document) =>
-        parent.querySelector(selector);
-
-    const $$ = (selector, parent = document) =>
-        [...parent.querySelectorAll(selector)];
-
-    const reducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const header = document.getElementById("header");
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    const contactForm = document.getElementById("contactForm");
+    const yearElement = document.getElementById("year");
 
 
-    /* =========================================
-       LOADING SCREEN
-    ========================================= */
+    /* =====================================================
+       HEADER SCROLL EFFECT
+    ===================================================== */
 
-    const loader = document.querySelector(".loader");
+    function handleHeaderScroll() {
 
-if (loader) {
-    window.addEventListener("load", () => {
-        loader.style.opacity = "0";
-        loader.style.pointerEvents = "none";
-
-        setTimeout(() => {
-            loader.style.display = "none";
-        }, 600);
-    });
-
-    // Safety fallback — never let the loader stay forever
-    setTimeout(() => {
-        loader.style.opacity = "0";
-        loader.style.pointerEvents = "none";
-
-        setTimeout(() => {
-            loader.style.display = "none";
-        }, 600);
-    }, 3000);
-       }
-
-    /* =========================================
-       HEADER / NAVIGATION
-    ========================================= */
-
-    const header = $(".site-header");
-
-    function updateHeader() {
         if (!header) return;
 
-        header.classList.toggle(
-            "scrolled",
-            window.scrollY > 40
-        );
+        if (window.scrollY > 40) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+
     }
 
     window.addEventListener(
         "scroll",
-        updateHeader,
+        handleHeaderScroll,
         { passive: true }
     );
 
-    updateHeader();
+    handleHeaderScroll();
 
 
-    /* =========================================
+    /* =====================================================
        MOBILE MENU
-    ========================================= */
+    ===================================================== */
 
-    const menuButton = $(".menu-toggle");
-    const mobileMenu = $(".mobile-menu");
+    if (menuToggle && navLinks) {
 
-    if (menuButton && mobileMenu) {
+        menuToggle.addEventListener("click", () => {
 
-        menuButton.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
 
-            const isOpen =
-                mobileMenu.classList.toggle("open");
+            document.body.classList.toggle("menu-open");
 
-            menuButton.classList.toggle(
-                "active",
-                isOpen
-            );
+            const icon =
+                menuToggle.querySelector("i");
 
-            menuButton.setAttribute(
-                "aria-expanded",
-                String(isOpen)
-            );
+            if (!icon) return;
 
-            mobileMenu.setAttribute(
-                "aria-hidden",
-                String(!isOpen)
-            );
+            if (navLinks.classList.contains("active")) {
+
+                icon.classList.remove("fa-bars");
+                icon.classList.add("fa-xmark");
+
+            } else {
+
+                icon.classList.remove("fa-xmark");
+                icon.classList.add("fa-bars");
+
+            }
+
         });
 
 
-        $$(".mobile-menu a").forEach(link => {
+        /* Close menu when a navigation link is clicked */
+
+        const navigationItems =
+            navLinks.querySelectorAll("a");
+
+        navigationItems.forEach((link) => {
 
             link.addEventListener("click", () => {
 
-                mobileMenu.classList.remove("open");
-                menuButton.classList.remove("active");
+                navLinks.classList.remove("active");
 
-                menuButton.setAttribute(
-                    "aria-expanded",
-                    "false"
+                document.body.classList.remove(
+                    "menu-open"
                 );
 
-                mobileMenu.setAttribute(
-                    "aria-hidden",
-                    "true"
-                );
+                const icon =
+                    menuToggle.querySelector("i");
+
+                if (icon) {
+
+                    icon.classList.remove("fa-xmark");
+                    icon.classList.add("fa-bars");
+
+                }
+
             });
 
         });
+
     }
 
 
-    /* =========================================
-       SMOOTH ANCHOR SCROLLING
-    ========================================= */
+    /* =====================================================
+       SCROLL REVEAL
+    ===================================================== */
 
-    $$('a[href^="#"]').forEach(link => {
+    const revealElements =
+        document.querySelectorAll(
+            ".reveal, .reveal-left, .reveal-right"
+        );
 
-        link.addEventListener("click", event => {
 
-            const targetID =
-                link.getAttribute("href");
+    const revealObserver =
+        new IntersectionObserver(
+            (entries, observer) => {
 
-            if (!targetID || targetID === "#")
-                return;
+                entries.forEach((entry) => {
 
-            const target = $(targetID);
+                    if (entry.isIntersecting) {
 
-            if (!target) return;
+                        entry.target.classList.add(
+                            "active"
+                        );
 
-            event.preventDefault();
+                        observer.unobserve(
+                            entry.target
+                        );
 
-            target.scrollIntoView({
-                behavior: reducedMotion
-                    ? "auto"
-                    : "smooth",
-                block: "start"
-            });
-        });
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.12,
+
+                rootMargin:
+                    "0px 0px -50px 0px"
+            }
+        );
+
+
+    revealElements.forEach((element) => {
+
+        revealObserver.observe(element);
 
     });
 
 
-    /* =========================================
-       HERO CINEMATIC SCROLL
-    ========================================= */
-
-    const hero = $(".hero");
-    const heroVisual = $(".hero-ac-wrap");
-    const heroCopy = $(".hero-copy");
-    const heroLogo = $(".hero-logo");
-
-    function clamp(value, min, max) {
-        return Math.max(
-            min,
-            Math.min(max, value)
-        );
-    }
-
-    function updateHero() {
-
-        if (!hero || !heroVisual)
-            return;
-
-        if (reducedMotion)
-            return;
-
-        const rect =
-            hero.getBoundingClientRect();
-
-        const scrollDistance =
-            Math.max(
-                hero.offsetHeight -
-                window.innerHeight,
-                1
-            );
-
-        const progress =
-            clamp(
-                -rect.top / scrollDistance,
-                0,
-                1
-            );
-
-
-        /* AC movement */
-
-        const x =
-            -4.5 + progress * 12;
-
-        const y =
-            -4 + progress * 14;
-
-        const scale =
-            0.72 + progress * 0.62;
-
-        const rotation =
-            progress * 2;
-
-
-        heroVisual.style.transform =
-            `translate3d(${x}vw, ${y}vh, 0)
-             scale(${scale})
-             rotate(${rotation}deg)`;
-
-
-        /* Hero text */
-
-        if (heroCopy) {
-
-            heroCopy.style.opacity =
-                clamp(
-                    1 - progress * 1.4,
-                    0,
-                    1
-                );
-
-            heroCopy.style.transform =
-                `translate3d(
-                    0,
-                    ${-progress * 70}px,
-                    0
-                )`;
-        }
-
-
-        /* Logo fade */
-
-        if (heroLogo) {
-
-            heroLogo.style.opacity =
-                clamp(
-                    1 - progress * 2,
-                    0,
-                    1
-                );
-        }
-    }
-
-
-    window.addEventListener(
-        "scroll",
-        updateHero,
-        { passive: true }
-    );
-
-    updateHero();
-
-
-    /* =========================================
-       INTERSECTION REVEALS
-    ========================================= */
-
-    const revealElements =
-        $$(".reveal, .reveal-up, .reveal-left, .reveal-right");
-
-    if ("IntersectionObserver" in window) {
-
-        const revealObserver =
-            new IntersectionObserver(
-                entries => {
-
-                    entries.forEach(entry => {
-
-                        if (!entry.isIntersecting)
-                            return;
-
-                        entry.target.classList.add(
-                            "visible"
-                        );
-
-                        revealObserver.unobserve(
-                            entry.target
-                        );
-                    });
-
-                },
-                {
-                    threshold: 0.12,
-                    rootMargin: "0px 0px -50px 0px"
-                }
-            );
-
-
-        revealElements.forEach(element =>
-            revealObserver.observe(element)
-        );
-
-    } else {
-
-        revealElements.forEach(element =>
-            element.classList.add("visible")
-        );
-    }
-
-
-    /* =========================================
-       NUMBER COUNTERS
-    ========================================= */
+    /* =====================================================
+       COUNTER ANIMATION
+    ===================================================== */
 
     const counters =
-        $$("[data-count]");
-
-    if ("IntersectionObserver" in window) {
-
-        const counterObserver =
-            new IntersectionObserver(
-                entries => {
-
-                    entries.forEach(entry => {
-
-                        if (!entry.isIntersecting)
-                            return;
-
-                        const element =
-                            entry.target;
-
-                        const target =
-                            Number(
-                                element.dataset.count
-                            );
-
-                        const suffix =
-                            element.dataset.suffix || "+";
+        document.querySelectorAll(".counter");
 
 
-                        if (reducedMotion) {
+    function animateCounter(counter) {
 
-                            element.textContent =
-                                target + suffix;
+        const target =
+            Number(counter.dataset.target);
 
-                            counterObserver.unobserve(
-                                element
-                            );
-
-                            return;
-                        }
-
-
-                        const duration = 1300;
-
-                        const start =
-                            performance.now();
+        if (
+            Number.isNaN(target) ||
+            target <= 0
+        ) {
+            return;
+        }
 
 
-                        function animate(time) {
+        const duration = 1800;
 
-                            const progress =
-                                Math.min(
-                                    (time - start) /
-                                    duration,
-                                    1
-                                );
-
-                            const eased =
-                                1 -
-                                Math.pow(
-                                    1 - progress,
-                                    3
-                                );
-
-                            element.textContent =
-                                Math.floor(
-                                    target * eased
-                                ) + suffix;
+        const startTime =
+            performance.now();
 
 
-                            if (progress < 1) {
+        function updateCounter(currentTime) {
 
-                                requestAnimationFrame(
-                                    animate
-                                );
+            const elapsed =
+                currentTime - startTime;
 
-                            } else {
-
-                                element.textContent =
-                                    target + suffix;
-                            }
-                        }
+            const progress =
+                Math.min(
+                    elapsed / duration,
+                    1
+                );
 
 
-                        requestAnimationFrame(
-                            animate
-                        );
+            /* Smooth ease-out */
 
-                        counterObserver.unobserve(
-                            element
-                        );
-                    });
-
-                },
-                {
-                    threshold: 0.5
-                }
-            );
+            const eased =
+                1 - Math.pow(
+                    1 - progress,
+                    3
+                );
 
 
-        counters.forEach(counter =>
-            counterObserver.observe(counter)
+            const currentValue =
+                Math.floor(
+                    eased * target
+                );
+
+
+            counter.textContent =
+                currentValue.toLocaleString();
+
+
+            if (progress < 1) {
+
+                requestAnimationFrame(
+                    updateCounter
+                );
+
+            } else {
+
+                counter.textContent =
+                    target.toLocaleString();
+
+            }
+
+        }
+
+
+        requestAnimationFrame(
+            updateCounter
         );
 
     }
 
 
-    /* =========================================
-       TIMELINE
-    ========================================= */
+    const counterObserver =
+        new IntersectionObserver(
+            (entries, observer) => {
 
-    const timeline =
-        $(".timeline");
+                entries.forEach((entry) => {
 
-    const timelineItems =
-        $$(".timeline-item");
+                    if (
+                        entry.isIntersecting
+                    ) {
 
-    const timelineProgress =
-        $(".timeline-progress span");
+                        animateCounter(
+                            entry.target
+                        );
 
+                        observer.unobserve(
+                            entry.target
+                        );
 
-    function updateTimeline() {
+                    }
 
-        if (!timeline)
-            return;
+                });
 
-        const rect =
-            timeline.getBoundingClientRect();
-
-        const available =
-            Math.max(
-                timeline.offsetHeight -
-                window.innerHeight,
-                1
-            );
-
-        const progress =
-            clamp(
-                (window.innerHeight * 0.65 -
-                    rect.top) /
-                available,
-                0,
-                1
-            );
-
-
-        if (timelineProgress) {
-
-            timelineProgress.style.height =
-                `${progress * 100}%`;
-        }
-
-
-        timelineItems.forEach(
-            (item, index) => {
-
-                const threshold =
-                    index /
-                    Math.max(
-                        timelineItems.length - 1,
-                        1
-                    );
-
-                item.classList.toggle(
-                    "active",
-                    progress >= threshold
-                );
+            },
+            {
+                threshold: 0.5
             }
         );
+
+
+    counters.forEach((counter) => {
+
+        counterObserver.observe(counter);
+
+    });
+
+
+    /* =====================================================
+       ACTIVE NAVIGATION
+       ===================================================== */
+
+    const sections =
+        document.querySelectorAll(
+            "section[id]"
+        );
+
+
+    const navAnchors =
+        document.querySelectorAll(
+            '.nav-links a[href^="#"]'
+        );
+
+
+    const sectionObserver =
+        new IntersectionObserver(
+            (entries) => {
+
+                entries.forEach((entry) => {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        const currentId =
+                            entry.target.getAttribute(
+                                "id"
+                            );
+
+
+                        navAnchors.forEach((link) => {
+
+                            link.classList.remove(
+                                "current"
+                            );
+
+
+                            const href =
+                                link.getAttribute(
+                                    "href"
+                                );
+
+
+                            if (
+                                href ===
+                                `#${currentId}`
+                            ) {
+
+                                link.classList.add(
+                                    "current"
+                                );
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.25,
+
+                rootMargin:
+                    "-80px 0px -50% 0px"
+            }
+        );
+
+
+    sections.forEach((section) => {
+
+        sectionObserver.observe(section);
+
+    });
+
+
+    /* =====================================================
+       SMOOTH ANCHOR SCROLLING
+       ===================================================== */
+
+    const anchorLinks =
+        document.querySelectorAll(
+            'a[href^="#"]'
+        );
+
+
+    anchorLinks.forEach((link) => {
+
+        link.addEventListener(
+            "click",
+            (event) => {
+
+                const targetId =
+                    link.getAttribute("href");
+
+
+                if (
+                    !targetId ||
+                    targetId === "#"
+                ) {
+                    return;
+                }
+
+
+                const target =
+                    document.querySelector(
+                        targetId
+                    );
+
+
+                if (!target) {
+                    return;
+                }
+
+
+                event.preventDefault();
+
+
+                const headerHeight =
+                    header
+                        ? header.offsetHeight
+                        : 0;
+
+
+                const targetPosition =
+                    target.getBoundingClientRect()
+                        .top
+                    +
+                    window.scrollY
+                    -
+                    headerHeight;
+
+
+                window.scrollTo({
+                    top: targetPosition,
+
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       CONTACT FORM
+    ===================================================== */
+
+    if (contactForm) {
+
+        contactForm.addEventListener(
+            "submit",
+            (event) => {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById(
+                        "name"
+                    );
+
+
+                const phone =
+                    document.getElementById(
+                        "phone"
+                    );
+
+
+                const email =
+                    document.getElementById(
+                        "email"
+                    );
+
+
+                const service =
+                    document.getElementById(
+                        "service"
+                    );
+
+
+                const message =
+                    document.getElementById(
+                        "message"
+                    );
+
+
+                if (!name || !phone) {
+                    return;
+                }
+
+
+                const nameValue =
+                    name.value.trim();
+
+
+                const phoneValue =
+                    phone.value.trim();
+
+
+                const emailValue =
+                    email
+                        ? email.value.trim()
+                        : "";
+
+
+                const serviceValue =
+                    service
+                        ? service.value
+                        : "";
+
+
+                const messageValue =
+                    message
+                        ? message.value.trim()
+                        : "";
+
+
+                if (
+                    nameValue === "" ||
+                    phoneValue === ""
+                ) {
+
+                    showMessage(
+                        "Please enter your name and phone number."
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                 * This currently shows a success message.
+                 *
+                 * Later you can connect this form
+                 * to WhatsApp, Formspree, EmailJS,
+                 * Supabase, or your own backend.
+                 */
+
+
+                console.log(
+                    "Contact Form:",
+                    {
+                        name:
+                            nameValue,
+
+                        phone:
+                            phoneValue,
+
+                        email:
+                            emailValue,
+
+                        service:
+                            serviceValue,
+
+                        message:
+                            messageValue
+                    }
+                );
+
+
+                showMessage(
+                    "Thank you! Your message has been received."
+                );
+
+
+                contactForm.reset();
+
+            }
+        );
+
     }
 
 
-    window.addEventListener(
-        "scroll",
-        updateTimeline,
-        { passive: true }
-    );
+    /* =====================================================
+       FORM MESSAGE
+    ===================================================== */
 
-    updateTimeline();
+    function showMessage(message) {
 
-
-    /* =========================================
-       PINNED SERVICES
-    ========================================= */
-
-    const pinnedSection =
-        $(".pinned-services");
-
-    const pinnedVisual =
-        $(".pin-ac");
-
-    const pinnedNumber =
-        $(".pin-number");
-
-    const pinnedTitle =
-        $(".pin-copy h2");
-
-    const pinnedDescription =
-        $(".pin-copy p");
-
-    const pinnedDots =
-        $(".pin-dots");
+        const oldMessage =
+            document.querySelector(
+                ".form-message"
+            );
 
 
-    const serviceData = [
+        if (oldMessage) {
 
-        {
-            number: "01",
-            title: "INSTALLATION",
-            description:
-                "Professional installation with suitable sizing, placement and careful workmanship."
-        },
+            oldMessage.remove();
 
-        {
-            number: "02",
-            title: "MAINTENANCE",
-            description:
-                "Regular maintenance designed to help keep AC systems operating efficiently and extend service life."
-        },
-
-        {
-            number: "03",
-            title: "REPAIR",
-            description:
-                "Fast and reliable repair services for AC systems from major brands."
-        },
-
-        {
-            number: "04",
-            title: "PC BOARD REPAIR",
-            description:
-                "Specialized repair and replacement of AC control boards and electronic components."
-        },
-
-        {
-            number: "05",
-            title: "MOTOR WINDING",
-            description:
-                "Professional motor repair and rewinding services for suitable AC motors."
-        },
-
-        {
-            number: "06",
-            title: "AMC CONTRACTS",
-            description:
-                "Yearly renewable Annual Maintenance Contracts designed to make ongoing AC maintenance easier."
         }
 
-    ];
+
+        const messageElement =
+            document.createElement(
+                "div"
+            );
+
+
+        messageElement.className =
+            "form-message";
+
+
+        messageElement.textContent =
+            message;
+
+
+        messageElement.style.marginTop =
+            "15px";
+
+
+        messageElement.style.padding =
+            "12px 15px";
+
+
+        messageElement.style.borderRadius =
+            "10px";
+
+
+        messageElement.style.fontSize =
+            "0.82rem";
+
+
+        messageElement.style.fontWeight =
+            "600";
+
+
+        messageElement.style.textAlign =
+            "center";
+
+
+        messageElement.style.background =
+            "#e9f8fa";
+
+
+        messageElement.style.color =
+            "#087f8c";
+
+
+        if (contactForm) {
+
+            contactForm.appendChild(
+                messageElement
+            );
+
+        }
+
+
+        setTimeout(() => {
+
+            if (messageElement) {
+
+                messageElement.style.opacity =
+                    "0";
+
+                messageElement.style.transition =
+                    "opacity 0.4s ease";
+
+
+                setTimeout(() => {
+
+                    messageElement.remove();
+
+                }, 400);
+
+            }
+
+        }, 4000);
+
+    }
+
+
+    /* =====================================================
+       PARALLAX EFFECT FOR HERO VISUAL
+       ===================================================== */
+
+    const heroVisual =
+        document.querySelector(
+            ".hero-visual"
+        );
 
 
     if (
-        pinnedSection &&
-        pinnedNumber &&
-        pinnedTitle &&
-        pinnedDescription
+        heroVisual &&
+        window.matchMedia(
+            "(min-width: 851px)"
+        ).matches
     ) {
 
-        if (pinnedDots) {
-
-            pinnedDots.innerHTML =
-                serviceData.map(
-                    (_, index) =>
-                        `<span class="${
-                            index === 0
-                                ? "active"
-                                : ""
-                        }"></span>`
-                ).join("");
-        }
-
-
-        const dots =
-            pinnedDots
-                ? $$("span", pinnedDots)
-                : [];
-
-
-        function updatePinnedServices() {
-
-            if (reducedMotion)
-                return;
-
-            const rect =
-                pinnedSection.getBoundingClientRect();
-
-            const distance =
-                Math.max(
-                    pinnedSection.offsetHeight -
-                    window.innerHeight,
-                    1
-                );
-
-            const progress =
-                clamp(
-                    -rect.top / distance,
-                    0,
-                    1
-                );
-
-
-            const index =
-                Math.min(
-                    serviceData.length - 1,
-                    Math.floor(
-                        progress *
-                        serviceData.length
-                    )
-                );
-
-
-            const service =
-                serviceData[index];
-
-
-            pinnedNumber.textContent =
-                service.number;
-
-            pinnedTitle.textContent =
-                service.title;
-
-            pinnedDescription.textContent =
-                service.description;
-
-
-            dots.forEach(
-                (dot, i) => {
-
-                    dot.classList.toggle(
-                        "active",
-                        i === index
-                    );
-                }
-            );
-
-
-            if (pinnedVisual) {
-
-                const movement =
-                    Math.sin(progress * 8) * 28;
-
-                const vertical =
-                    Math.cos(progress * 6) * 16;
-
-                const scale =
-                    0.8 +
-                    progress * 0.3;
-
-                const rotation =
-                    Math.sin(progress * 5) * 1.2;
-
-
-                pinnedVisual.style.transform =
-                    `translate(-50%, -50%)
-                     translate3d(
-                        ${movement}px,
-                        ${vertical}px,
-                        0
-                     )
-                     scale(${scale})
-                     rotate(${rotation}deg)`;
-            }
-        }
-
-
         window.addEventListener(
-            "scroll",
-            updatePinnedServices,
+            "mousemove",
+            (event) => {
+
+                const x =
+                    (
+                        event.clientX /
+                        window.innerWidth
+                    ) - 0.5;
+
+
+                const y =
+                    (
+                        event.clientY /
+                        window.innerHeight
+                    ) - 0.5;
+
+
+                heroVisual.style.transform =
+                    `translate(${x * 10}px, ${y * 10}px)`;
+
+            },
             { passive: true }
         );
 
-        updatePinnedServices();
     }
 
 
-    /* =========================================
-       SERVICE CARD HOVER
-    ========================================= */
+    /* =====================================================
+       SERVICE CARD TILT
+       ===================================================== */
 
-    $$(".service-card").forEach(card => {
-
-        card.addEventListener(
-            "pointermove",
-            event => {
-
-                if (window.innerWidth < 800)
-                    return;
-
-                const rect =
-                    card.getBoundingClientRect();
-
-                const x =
-                    event.clientX - rect.left;
-
-                const y =
-                    event.clientY - rect.top;
-
-                const rotateY =
-                    ((x / rect.width) - 0.5) * 4;
-
-                const rotateX =
-                    ((y / rect.height) - 0.5) * -4;
-
-
-                card.style.transform =
-                    `perspective(800px)
-                     rotateX(${rotateX}deg)
-                     rotateY(${rotateY}deg)
-                     translateY(-4px)`;
-            }
+    const serviceCards =
+        document.querySelectorAll(
+            ".service-card"
         );
 
 
-        card.addEventListener(
-            "pointerleave",
-            () => {
+    if (
+        window.matchMedia(
+            "(min-width: 851px)"
+        ).matches
+    ) {
 
-                card.style.transform =
-                    "";
-            }
-        );
+        serviceCards.forEach((card) => {
 
-    });
+            card.addEventListener(
+                "mousemove",
+                (event) => {
 
-
-    /* =========================================
-       RESIDENTIAL / COMMERCIAL PANELS
-    ========================================= */
-
-    const splitPanels =
-        $$(".split-panel");
+                    const rect =
+                        card.getBoundingClientRect();
 
 
-    if ("IntersectionObserver" in window) {
+                    const x =
+                        event.clientX -
+                        rect.left;
 
-        const splitObserver =
-            new IntersectionObserver(
-                entries => {
 
-                    entries.forEach(entry => {
+                    const y =
+                        event.clientY -
+                        rect.top;
 
-                        if (!entry.isIntersecting)
-                            return;
 
-                        entry.target.classList.add(
-                            "in-view"
-                        );
+                    const centerX =
+                        rect.width / 2;
 
-                        splitObserver.unobserve(
-                            entry.target
-                        );
-                    });
 
-                },
-                {
-                    threshold: 0.15
+                    const centerY =
+                        rect.height / 2;
+
+
+                    const rotateX =
+                        (
+                            y - centerY
+                        ) / 25;
+
+
+                    const rotateY =
+                        (
+                            centerX - x
+                        ) / 25;
+
+
+                    card.style.transform =
+                        `perspective(800px)
+                         rotateX(${rotateX}deg)
+                         rotateY(${rotateY}deg)
+                         translateY(-10px)`;
+
                 }
             );
 
 
-        splitPanels.forEach(
-            panel =>
-                splitObserver.observe(panel)
-        );
+            card.addEventListener(
+                "mouseleave",
+                () => {
+
+                    card.style.transform =
+                        "";
+
+                }
+            );
+
+        });
+
     }
 
 
-    /* =========================================
-       GALLERY FILTER
-    ========================================= */
+    /* =====================================================
+       UPDATE FOOTER YEAR
+    ===================================================== */
 
-    const filterButtons =
-        $$(".gallery-filter button");
+    if (yearElement) {
 
-    const galleryItems =
-        $$(".gallery-item");
+        yearElement.textContent =
+            new Date().getFullYear();
+
+    }
 
 
-    filterButtons.forEach(button => {
+    /* =====================================================
+       IMAGE FALLBACK
+       ===================================================== */
 
-        button.addEventListener(
-            "click",
+    const images =
+        document.querySelectorAll(
+            "img"
+        );
+
+
+    images.forEach((image) => {
+
+        image.addEventListener(
+            "error",
             () => {
 
-                const filter =
-                    button.dataset.filter ||
-                    button.textContent
-                        .trim()
-                        .toLowerCase();
+                /*
+                 * Prevent broken images from
+                 * looking messy.
+                 */
 
-
-                filterButtons.forEach(
-                    item =>
-                        item.classList.remove(
-                            "active"
-                        )
-                );
-
-                button.classList.add(
-                    "active"
-                );
-
-
-                galleryItems.forEach(item => {
-
-                    const category =
-                        item.dataset.category ||
-                        "all";
-
-
-                    const show =
-                        filter === "all" ||
-                        category === filter;
-
-
-                    item.classList.toggle(
-                        "hidden",
-                        !show
-                    );
-                });
+                image.style.display =
+                    "none";
 
             }
         );
@@ -836,61 +814,12 @@ if (loader) {
     });
 
 
-    /* =========================================
-       FAQ ACCORDION
-    ========================================= */
+    /* =====================================================
+       PAGE READY
+    ===================================================== */
 
-    const faqItems =
-        $$(".faq-item");
+    document.body.classList.add(
+        "page-loaded"
+    );
 
-
-    faqItems.forEach(item => {
-
-        const question =
-            $(".faq-question", item);
-
-        const answer =
-            $(".faq-answer", item);
-
-
-        if (!question || !answer)
-            return;
-
-
-        question.addEventListener(
-            "click",
-            () => {
-
-                const isOpen =
-                    item.classList.contains(
-                        "open"
-                    );
-
-
-                /* Close all */
-
-                faqItems.forEach(other => {
-
-                    other.classList.remove(
-                        "open"
-                    );
-
-                    const otherQuestion =
-                        $(".faq-question", other);
-
-                    if (otherQuestion) {
-
-                        otherQuestion.setAttribute(
-                            "aria-expanded",
-                            "false"
-                        );
-                    }
-                });
-
-
-                /* Open selected */
-
-                if (!isOpen) {
-
-                    item.classList.add(
-                     
+});
