@@ -1,439 +1,884 @@
-const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>[...c.querySelectorAll(s)];
+/* =========================================
+   MAJAN COOLING — PREMIUM WEBSITE
+   Main JavaScript
+========================================= */
 
-const loader=$(".loader");
+document.addEventListener("DOMContentLoaded", () => {
 
-window.addEventListener("load",()=>setTimeout(()=>{
-    loader.classList.add("done");
-},450));
+    /* =========================================
+       BASIC HELPERS
+    ========================================= */
 
-const header=$(".site-header");
+    const $ = (selector, parent = document) =>
+        parent.querySelector(selector);
 
-addEventListener("scroll",()=>{
-    header.classList.toggle("scrolled",scrollY>30);
-},{passive:true});
+    const $$ = (selector, parent = document) =>
+        [...parent.querySelectorAll(selector)];
 
-
-/* =========================
-   MOBILE MENU
-========================= */
-
-const menu=$(".menu-toggle");
-const mobile=$(".mobile-menu");
-
-menu.addEventListener("click",()=>{
-    const open=mobile.classList.toggle("open");
-
-    menu.setAttribute("aria-expanded",open);
-    mobile.setAttribute("aria-hidden",!open);
-});
-
-$$(".mobile-menu a").forEach(a=>
-    a.addEventListener("click",()=>{
-        mobile.classList.remove("open");
-        menu.setAttribute("aria-expanded","false");
-    })
-);
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
 
 
-/* =========================
-   REDUCED MOTION
-========================= */
+    /* =========================================
+       LOADING SCREEN
+    ========================================= */
 
-const reduced=matchMedia(
-    "(prefers-reduced-motion: reduce)"
-).matches;
+    const loader = $(".loader");
+
+    if (loader) {
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                loader.classList.add("done");
+            }, reducedMotion ? 0 : 500);
+        });
+    }
 
 
-/* =========================
-   HERO SCROLL ANIMATION
-========================= */
+    /* =========================================
+       HEADER / NAVIGATION
+    ========================================= */
 
-const hero=document.querySelector(".hero");
-const heroCopy=$(".hero-copy");
-const heroAc=$(".hero-ac-wrap");
-const heroH1=$(".hero h1");
-const heroLogo=$(".hero-logo");
+    const header = $(".site-header");
 
-function clamp(n,a,b){
-    return Math.max(a,Math.min(b,n));
-}
+    function updateHeader() {
+        if (!header) return;
 
-function heroScroll(){
+        header.classList.toggle(
+            "scrolled",
+            window.scrollY > 40
+        );
+    }
 
-    if(reduced)return;
-
-    const r=hero.getBoundingClientRect();
-
-    const total=hero.offsetHeight-innerHeight;
-
-    const p=clamp(
-        -r.top/total,
-        0,
-        1
+    window.addEventListener(
+        "scroll",
+        updateHeader,
+        { passive: true }
     );
 
-    heroAc.style.transform=
-        `translate3d(
-            ${p*9-4.5}vw,
-            ${p*12-5}vh,
-            0
-        )
-        scale(${.72+p*.62})
-        rotate(${p*1.7}deg)`;
+    updateHeader();
 
-    heroAc.style.filter=
-        `brightness(${1+p*.1})`;
 
-    heroCopy.style.opacity=
-        String(
-            clamp(
-                1-p*1.45,
-                0,
-                1
-            )
+    /* =========================================
+       MOBILE MENU
+    ========================================= */
+
+    const menuButton = $(".menu-toggle");
+    const mobileMenu = $(".mobile-menu");
+
+    if (menuButton && mobileMenu) {
+
+        menuButton.addEventListener("click", () => {
+
+            const isOpen =
+                mobileMenu.classList.toggle("open");
+
+            menuButton.classList.toggle(
+                "active",
+                isOpen
+            );
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            mobileMenu.setAttribute(
+                "aria-hidden",
+                String(!isOpen)
+            );
+        });
+
+
+        $$(".mobile-menu a").forEach(link => {
+
+            link.addEventListener("click", () => {
+
+                mobileMenu.classList.remove("open");
+                menuButton.classList.remove("active");
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                mobileMenu.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+            });
+
+        });
+    }
+
+
+    /* =========================================
+       SMOOTH ANCHOR SCROLLING
+    ========================================= */
+
+    $$('a[href^="#"]').forEach(link => {
+
+        link.addEventListener("click", event => {
+
+            const targetID =
+                link.getAttribute("href");
+
+            if (!targetID || targetID === "#")
+                return;
+
+            const target = $(targetID);
+
+            if (!target) return;
+
+            event.preventDefault();
+
+            target.scrollIntoView({
+                behavior: reducedMotion
+                    ? "auto"
+                    : "smooth",
+                block: "start"
+            });
+        });
+
+    });
+
+
+    /* =========================================
+       HERO CINEMATIC SCROLL
+    ========================================= */
+
+    const hero = $(".hero");
+    const heroVisual = $(".hero-ac-wrap");
+    const heroCopy = $(".hero-copy");
+    const heroLogo = $(".hero-logo");
+
+    function clamp(value, min, max) {
+        return Math.max(
+            min,
+            Math.min(max, value)
         );
+    }
 
-    heroCopy.style.transform=
-        `translate3d(
-            0,
-            ${-p*65}px,
-            0
-        )`;
+    function updateHero() {
 
-    heroLogo.style.opacity=
-        String(
-            clamp(
-                1-p*2,
-                0,
-                1
-            )
-        );
+        if (!hero || !heroVisual)
+            return;
 
-    heroH1.style.transform=
-        `translate3d(
-            0,
-            ${-p*35}px,
-            0
-        )`;
-}
+        if (reducedMotion)
+            return;
 
-addEventListener(
-    "scroll",
-    heroScroll,
-    {passive:true}
-);
+        const rect =
+            hero.getBoundingClientRect();
 
-heroScroll();
-
-
-/* =========================
-   ANIMATED COUNTERS
-========================= */
-
-const counters=$$("[data-count]");
-
-const io=new IntersectionObserver(
-    es=>es.forEach(e=>{
-
-        if(!e.isIntersecting)return;
-
-        const el=e.target;
-
-        const target=+el.dataset.count;
-
-        const start=performance.now();
-
-        const dur=1200;
-
-        function tick(t){
-
-            const p=Math.min(
-                (t-start)/dur,
+        const scrollDistance =
+            Math.max(
+                hero.offsetHeight -
+                window.innerHeight,
                 1
             );
 
-            el.textContent=
-                Math.floor(
-                    target*
-                    (1-Math.pow(1-p,3))
-                )+"+";
+        const progress =
+            clamp(
+                -rect.top / scrollDistance,
+                0,
+                1
+            );
 
-            if(p<1){
-                requestAnimationFrame(tick);
+
+        /* AC movement */
+
+        const x =
+            -4.5 + progress * 12;
+
+        const y =
+            -4 + progress * 14;
+
+        const scale =
+            0.72 + progress * 0.62;
+
+        const rotation =
+            progress * 2;
+
+
+        heroVisual.style.transform =
+            `translate3d(${x}vw, ${y}vh, 0)
+             scale(${scale})
+             rotate(${rotation}deg)`;
+
+
+        /* Hero text */
+
+        if (heroCopy) {
+
+            heroCopy.style.opacity =
+                clamp(
+                    1 - progress * 1.4,
+                    0,
+                    1
+                );
+
+            heroCopy.style.transform =
+                `translate3d(
+                    0,
+                    ${-progress * 70}px,
+                    0
+                )`;
+        }
+
+
+        /* Logo fade */
+
+        if (heroLogo) {
+
+            heroLogo.style.opacity =
+                clamp(
+                    1 - progress * 2,
+                    0,
+                    1
+                );
+        }
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        updateHero,
+        { passive: true }
+    );
+
+    updateHero();
+
+
+    /* =========================================
+       INTERSECTION REVEALS
+    ========================================= */
+
+    const revealElements =
+        $$(".reveal, .reveal-up, .reveal-left, .reveal-right");
+
+    if ("IntersectionObserver" in window) {
+
+        const revealObserver =
+            new IntersectionObserver(
+                entries => {
+
+                    entries.forEach(entry => {
+
+                        if (!entry.isIntersecting)
+                            return;
+
+                        entry.target.classList.add(
+                            "visible"
+                        );
+
+                        revealObserver.unobserve(
+                            entry.target
+                        );
+                    });
+
+                },
+                {
+                    threshold: 0.12,
+                    rootMargin: "0px 0px -50px 0px"
+                }
+            );
+
+
+        revealElements.forEach(element =>
+            revealObserver.observe(element)
+        );
+
+    } else {
+
+        revealElements.forEach(element =>
+            element.classList.add("visible")
+        );
+    }
+
+
+    /* =========================================
+       NUMBER COUNTERS
+    ========================================= */
+
+    const counters =
+        $$("[data-count]");
+
+    if ("IntersectionObserver" in window) {
+
+        const counterObserver =
+            new IntersectionObserver(
+                entries => {
+
+                    entries.forEach(entry => {
+
+                        if (!entry.isIntersecting)
+                            return;
+
+                        const element =
+                            entry.target;
+
+                        const target =
+                            Number(
+                                element.dataset.count
+                            );
+
+                        const suffix =
+                            element.dataset.suffix || "+";
+
+
+                        if (reducedMotion) {
+
+                            element.textContent =
+                                target + suffix;
+
+                            counterObserver.unobserve(
+                                element
+                            );
+
+                            return;
+                        }
+
+
+                        const duration = 1300;
+
+                        const start =
+                            performance.now();
+
+
+                        function animate(time) {
+
+                            const progress =
+                                Math.min(
+                                    (time - start) /
+                                    duration,
+                                    1
+                                );
+
+                            const eased =
+                                1 -
+                                Math.pow(
+                                    1 - progress,
+                                    3
+                                );
+
+                            element.textContent =
+                                Math.floor(
+                                    target * eased
+                                ) + suffix;
+
+
+                            if (progress < 1) {
+
+                                requestAnimationFrame(
+                                    animate
+                                );
+
+                            } else {
+
+                                element.textContent =
+                                    target + suffix;
+                            }
+                        }
+
+
+                        requestAnimationFrame(
+                            animate
+                        );
+
+                        counterObserver.unobserve(
+                            element
+                        );
+                    });
+
+                },
+                {
+                    threshold: 0.5
+                }
+            );
+
+
+        counters.forEach(counter =>
+            counterObserver.observe(counter)
+        );
+
+    }
+
+
+    /* =========================================
+       TIMELINE
+    ========================================= */
+
+    const timeline =
+        $(".timeline");
+
+    const timelineItems =
+        $$(".timeline-item");
+
+    const timelineProgress =
+        $(".timeline-progress span");
+
+
+    function updateTimeline() {
+
+        if (!timeline)
+            return;
+
+        const rect =
+            timeline.getBoundingClientRect();
+
+        const available =
+            Math.max(
+                timeline.offsetHeight -
+                window.innerHeight,
+                1
+            );
+
+        const progress =
+            clamp(
+                (window.innerHeight * 0.65 -
+                    rect.top) /
+                available,
+                0,
+                1
+            );
+
+
+        if (timelineProgress) {
+
+            timelineProgress.style.height =
+                `${progress * 100}%`;
+        }
+
+
+        timelineItems.forEach(
+            (item, index) => {
+
+                const threshold =
+                    index /
+                    Math.max(
+                        timelineItems.length - 1,
+                        1
+                    );
+
+                item.classList.toggle(
+                    "active",
+                    progress >= threshold
+                );
+            }
+        );
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        updateTimeline,
+        { passive: true }
+    );
+
+    updateTimeline();
+
+
+    /* =========================================
+       PINNED SERVICES
+    ========================================= */
+
+    const pinnedSection =
+        $(".pinned-services");
+
+    const pinnedVisual =
+        $(".pin-ac");
+
+    const pinnedNumber =
+        $(".pin-number");
+
+    const pinnedTitle =
+        $(".pin-copy h2");
+
+    const pinnedDescription =
+        $(".pin-copy p");
+
+    const pinnedDots =
+        $(".pin-dots");
+
+
+    const serviceData = [
+
+        {
+            number: "01",
+            title: "INSTALLATION",
+            description:
+                "Professional installation with suitable sizing, placement and careful workmanship."
+        },
+
+        {
+            number: "02",
+            title: "MAINTENANCE",
+            description:
+                "Regular maintenance designed to help keep AC systems operating efficiently and extend service life."
+        },
+
+        {
+            number: "03",
+            title: "REPAIR",
+            description:
+                "Fast and reliable repair services for AC systems from major brands."
+        },
+
+        {
+            number: "04",
+            title: "PC BOARD REPAIR",
+            description:
+                "Specialized repair and replacement of AC control boards and electronic components."
+        },
+
+        {
+            number: "05",
+            title: "MOTOR WINDING",
+            description:
+                "Professional motor repair and rewinding services for suitable AC motors."
+        },
+
+        {
+            number: "06",
+            title: "AMC CONTRACTS",
+            description:
+                "Yearly renewable Annual Maintenance Contracts designed to make ongoing AC maintenance easier."
+        }
+
+    ];
+
+
+    if (
+        pinnedSection &&
+        pinnedNumber &&
+        pinnedTitle &&
+        pinnedDescription
+    ) {
+
+        if (pinnedDots) {
+
+            pinnedDots.innerHTML =
+                serviceData.map(
+                    (_, index) =>
+                        `<span class="${
+                            index === 0
+                                ? "active"
+                                : ""
+                        }"></span>`
+                ).join("");
+        }
+
+
+        const dots =
+            pinnedDots
+                ? $$("span", pinnedDots)
+                : [];
+
+
+        function updatePinnedServices() {
+
+            if (reducedMotion)
+                return;
+
+            const rect =
+                pinnedSection.getBoundingClientRect();
+
+            const distance =
+                Math.max(
+                    pinnedSection.offsetHeight -
+                    window.innerHeight,
+                    1
+                );
+
+            const progress =
+                clamp(
+                    -rect.top / distance,
+                    0,
+                    1
+                );
+
+
+            const index =
+                Math.min(
+                    serviceData.length - 1,
+                    Math.floor(
+                        progress *
+                        serviceData.length
+                    )
+                );
+
+
+            const service =
+                serviceData[index];
+
+
+            pinnedNumber.textContent =
+                service.number;
+
+            pinnedTitle.textContent =
+                service.title;
+
+            pinnedDescription.textContent =
+                service.description;
+
+
+            dots.forEach(
+                (dot, i) => {
+
+                    dot.classList.toggle(
+                        "active",
+                        i === index
+                    );
+                }
+            );
+
+
+            if (pinnedVisual) {
+
+                const movement =
+                    Math.sin(progress * 8) * 28;
+
+                const vertical =
+                    Math.cos(progress * 6) * 16;
+
+                const scale =
+                    0.8 +
+                    progress * 0.3;
+
+                const rotation =
+                    Math.sin(progress * 5) * 1.2;
+
+
+                pinnedVisual.style.transform =
+                    `translate(-50%, -50%)
+                     translate3d(
+                        ${movement}px,
+                        ${vertical}px,
+                        0
+                     )
+                     scale(${scale})
+                     rotate(${rotation}deg)`;
             }
         }
 
-        requestAnimationFrame(tick);
 
-        io.unobserve(el);
-    }),
-    {threshold:.5}
-);
+        window.addEventListener(
+            "scroll",
+            updatePinnedServices,
+            { passive: true }
+        );
 
-counters.forEach(c=>io.observe(c));
+        updatePinnedServices();
+    }
 
 
-/* =========================
-   TIMELINE ANIMATION
-========================= */
+    /* =========================================
+       SERVICE CARD HOVER
+    ========================================= */
 
-const timeline=$(".timeline");
+    $$(".service-card").forEach(card => {
 
-const articles=$$(".timeline article");
+        card.addEventListener(
+            "pointermove",
+            event => {
 
-const progress=$(".timeline-progress span");
+                if (window.innerWidth < 800)
+                    return;
 
-function timelineRun(){
+                const rect =
+                    card.getBoundingClientRect();
 
-    if(!timeline)return;
+                const x =
+                    event.clientX - rect.left;
 
-    const r=timeline.getBoundingClientRect();
+                const y =
+                    event.clientY - rect.top;
 
-    const p=clamp(
-        (innerHeight*.65-r.top)/
-        (r.height-innerHeight*.2),
-        0,
-        1
-    );
+                const rotateY =
+                    ((x / rect.width) - 0.5) * 4;
 
-    progress.style.height=
-        (p*100)+"%";
+                const rotateX =
+                    ((y / rect.height) - 0.5) * -4;
 
-    articles.forEach((a,i)=>{
 
-        a.classList.toggle(
-            "active",
-            p>(i/(articles.length))
+                card.style.transform =
+                    `perspective(800px)
+                     rotateX(${rotateX}deg)
+                     rotateY(${rotateY}deg)
+                     translateY(-4px)`;
+            }
+        );
+
+
+        card.addEventListener(
+            "pointerleave",
+            () => {
+
+                card.style.transform =
+                    "";
+            }
         );
 
     });
-}
-
-addEventListener(
-    "scroll",
-    timelineRun,
-    {passive:true}
-);
-
-timelineRun();
 
 
-/* =========================
-   PINNED SERVICES
-========================= */
+    /* =========================================
+       RESIDENTIAL / COMMERCIAL PANELS
+    ========================================= */
 
-const pin=$(".pinned-services");
-
-const pinAc=$(".pin-ac");
-
-const pinCopy=$(".pin-copy");
-
-const pinNum=$(".pin-number");
-
-const pinTitle=$(".pin-copy h2");
-
-const pinDesc=$(".pin-copy p");
-
-const dots=$(".pin-dots");
+    const splitPanels =
+        $$(".split-panel");
 
 
-const pinData=[
+    if ("IntersectionObserver" in window) {
 
-    [
-        "01",
-        "INSTALLATION",
-        "Professional installation with suitable sizing, placement and careful workmanship."
-    ],
+        const splitObserver =
+            new IntersectionObserver(
+                entries => {
 
-    [
-        "02",
-        "MAINTENANCE",
-        "Regular maintenance designed to help keep AC systems operating efficiently and extend service life."
-    ],
+                    entries.forEach(entry => {
 
-    [
-        "03",
-        "REPAIR",
-        "Fast and reliable repair services for AC systems from major brands."
-    ],
+                        if (!entry.isIntersecting)
+                            return;
 
-    [
-        "04",
-        "PC BOARD REPAIR",
-        "Specialized repair and replacement of AC control boards and electronic components."
-    ],
+                        entry.target.classList.add(
+                            "in-view"
+                        );
 
-    [
-        "05",
-        "MOTOR WINDING",
-        "Professional motor repair and rewinding services for suitable AC motors."
-    ],
+                        splitObserver.unobserve(
+                            entry.target
+                        );
+                    });
 
-    [
-        "06",
-        "AMC CONTRACTS",
-        "Yearly renewable Annual Maintenance Contracts designed to make ongoing AC maintenance easier."
-    ]
-
-];
-
-
-dots.innerHTML=
-    pinData.map(
-        (_,i)=>
-        `<i class="${i===0?"active":""}"></i>`
-    ).join("");
-
-const dotEls=$$("i",dots);
-
-
-function pinnedRun(){
-
-    if(reduced)return;
-
-    const r=pin.getBoundingClientRect();
-
-    const p=clamp(
-        -r.top/
-        (pin.offsetHeight-innerHeight),
-        0,
-        1
-    );
-
-    const idx=Math.min(
-        pinData.length-1,
-        Math.floor(
-            p*pinData.length
-        )
-    );
-
-    const d=pinData[idx];
-
-    pinNum.textContent=d[0];
-
-    pinTitle.textContent=d[1];
-
-    pinDesc.textContent=d[2];
-
-
-    dotEls.forEach(
-        (x,i)=>
-        x.classList.toggle(
-            "active",
-            i===idx
-        )
-    );
-
-
-    pinAc.style.transform=
-        `translate(
-            -50%,
-            -50%
-        )
-        translate3d(
-            ${Math.sin(p*7)*35}px,
-            ${Math.cos(p*5)*18}px,
-            0
-        )
-        scale(${.78+p*.38})
-        rotate(${Math.sin(p*5)*1.3}deg)`;
-
-
-    pinAc.style.filter=
-        `brightness(${.9+p*.22})`;
-}
-
-addEventListener(
-    "scroll",
-    pinnedRun,
-    {passive:true}
-);
-
-pinnedRun();
-
-
-/* =========================
-   RESIDENTIAL / COMMERCIAL
-========================= */
-
-const splitPanels=$$(".split-panel");
-
-const splitIO=new IntersectionObserver(
-    es=>es.forEach(e=>{
-
-        if(e.isIntersecting){
-
-            e.target.style.transform=
-                "translateX(0)";
-        }
-
-    }),
-    {threshold:.15}
-);
-
-
-splitPanels.forEach(
-    (p,i)=>{
-
-        p.style.transform=
-            `translateX(
-                ${i===0?"-8%":"8%"}
-            )`;
-
-        splitIO.observe(p);
-    }
-);
-
-
-/* =========================
-   GALLERY FILTER BUTTONS
-========================= */
-
-const filterBtns=$$(".filters button");
-
-filterBtns.forEach(
-    b=>
-    b.addEventListener(
-        "click",
-        ()=>{
-
-            filterBtns.forEach(
-                x=>x.classList.remove("active")
+                },
+                {
+                    threshold: 0.15
+                }
             );
 
-            b.classList.add("active");
 
-        }
-    )
-);
+        splitPanels.forEach(
+            panel =>
+                splitObserver.observe(panel)
+        );
+    }
 
 
-/* =========================
-   SMOOTH NAVIGATION
-========================= */
+    /* =========================================
+       GALLERY FILTER
+    ========================================= */
 
-$$("a[href^='#']").forEach(
-    a=>
-    a.addEventListener(
-        "click",
-        e=>{
+    const filterButtons =
+        $$(".gallery-filter button");
 
-            const target=
-                $(a.getAttribute("href"));
+    const galleryItems =
+        $$(".gallery-item");
 
-            if(target){
 
-                e.preventDefault();
+    filterButtons.forEach(button => {
 
-                target.scrollIntoView({
-                    behavior:
-                        reduced
-                        ?"auto"
-                        :"smooth"
+        button.addEventListener(
+            "click",
+            () => {
+
+                const filter =
+                    button.dataset.filter ||
+                    button.textContent
+                        .trim()
+                        .toLowerCase();
+
+
+                filterButtons.forEach(
+                    item =>
+                        item.classList.remove(
+                            "active"
+                        )
+                );
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                galleryItems.forEach(item => {
+
+                    const category =
+                        item.dataset.category ||
+                        "all";
+
+
+                    const show =
+                        filter === "all" ||
+                        category === filter;
+
+
+                    item.classList.toggle(
+                        "hidden",
+                        !show
+                    );
                 });
 
             }
+        );
 
-        }
-    )
-);
+    });
+
+
+    /* =========================================
+       FAQ ACCORDION
+    ========================================= */
+
+    const faqItems =
+        $$(".faq-item");
+
+
+    faqItems.forEach(item => {
+
+        const question =
+            $(".faq-question", item);
+
+        const answer =
+            $(".faq-answer", item);
+
+
+        if (!question || !answer)
+            return;
+
+
+        question.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    item.classList.contains(
+                        "open"
+                    );
+
+
+                /* Close all */
+
+                faqItems.forEach(other => {
+
+                    other.classList.remove(
+                        "open"
+                    );
+
+                    const otherQuestion =
+                        $(".faq-question", other);
+
+                    if (otherQuestion) {
+
+                        otherQuestion.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+                    }
+                });
+
+
+                /* Open selected */
+
+                if (!isOpen) {
+
+                    item.classList.add(
+                     
